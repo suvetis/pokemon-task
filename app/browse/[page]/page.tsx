@@ -1,26 +1,35 @@
-import { auth, signOut } from '@/auth';
-import { Button } from '@/components/ui/button';
-import { redirect } from 'next/navigation';
+import PokemonList from '@/components/PokemonList';
 import React from 'react';
+import SearchResultList from '@/components/SearchResultList';
+import { Suspense } from 'react';
+import Header from './Header';
+import { SplineIcon } from 'lucide-react';
+import Spinner from '@/components/Spinner';
 
-const BrowsePage = async () => {
-  const session = await auth();
-  if (!session?.user) redirect('/login');
+export type ParamType = {
+  [key: string]: string | string[] | undefined;
+};
+
+const BrowsePage = async ({ params, searchParams }: { params: { page: string }; searchParams?: ParamType }) => {
+  const { page } = params;
+  const searchTerm = (searchParams?.searchTerm as string) || '';
+
+  async function fetchPokemons(page: string) {
+    await new Promise((resolve) => setTimeout(resolve, 2000));
+    const response = await fetch(`https://pokeapi.co/api/v2/pokemon?limit=24&offset=${Number(page) * 24}`);
+    const pokemons = await response.json();
+    return pokemons.results;
+  }
 
   return (
-    <div className="p-4">
-      <form
-        action={async () => {
-          'use server';
-          await signOut({
-            redirect: true,
-            redirectTo: '/login',
-          });
-        }}
-      >
-        <Button type="submit">Sign Out</Button>
-      </form>
-    </div>
+    <main className="flex flex-col h-screen">
+      <Header page={page} searchTerm={searchTerm} />
+      <div className="flex-grow">
+        <Suspense fallback={<Spinner />}>
+          {searchTerm ? <SearchResultList searchTerm={searchTerm} /> : <PokemonList fetchData={() => fetchPokemons(page)} />}
+        </Suspense>
+      </div>
+    </main>
   );
 };
 

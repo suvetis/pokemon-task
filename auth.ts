@@ -2,12 +2,6 @@ import NextAuth from 'next-auth';
 import Credentials from 'next-auth/providers/credentials';
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
-  // callbacks: {
-  //   authorized: async ({ auth }) => {
-  //     // Logged in users are authenticated, otherwise redirect to login page
-  //     return !!auth;
-  //   },
-  // },
   providers: [
     Credentials({
       credentials: {
@@ -15,21 +9,18 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         password: {},
       },
       authorize: async (credentials) => {
-        let user = null;
-
-        if (credentials?.email === 'admin@mail.com' && credentials?.password === 'root') {
-          user = {
+        const users = [
+          {
             id: '1',
-            name: 'Admin',
+            username: 'user1',
+            password: 'root',
             email: 'admin@mail.com',
-          };
-        }
+          },
+        ];
 
-        if (!user) {
-          throw new Error('User not found.');
-        }
+        const user = users.find((user) => user.email === credentials?.email && user.password === credentials?.password);
 
-        return user;
+        return user ? { id: user.id, name: user.username, email: user.email } : null;
       },
     }),
   ],

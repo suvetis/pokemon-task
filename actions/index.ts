@@ -50,3 +50,10 @@ export async function signIn(formState: SingInFormState, formData: FormData): Pr
 
   redirect('/browse/1');
 }
+
+export async function signOut() {
+  await auth.signOut({
+    redirect: true,
+    redirectTo: '/login',
+  });
+}
