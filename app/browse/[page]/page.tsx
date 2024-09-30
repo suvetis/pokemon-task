@@ -11,11 +11,11 @@ export type ParamType = {
 };
 
 const BrowsePage = async ({ params, searchParams }: { params: { page: string }; searchParams?: ParamType }) => {
-  const { page } = params;
-  const searchTerm = (searchParams?.searchTerm as string) || '';
-
   const session = await auth();
   if (!session) redirect('/login');
+
+  const { page } = params;
+  const searchTerm = (searchParams?.searchTerm as string) || '';
 
   async function fetchPokemons(page: string) {
     await new Promise((resolve) => setTimeout(resolve, 2000));

@@ -1,5 +1,7 @@
 import Image from 'next/image';
 import BackToHome from '@/components/BackToHome';
+import { redirect } from 'next/navigation';
+import { auth } from '@/auth';
 
 interface Ability {
   ability: {
@@ -8,6 +10,9 @@ interface Ability {
 }
 
 const PokemonPage = async ({ params }: { params: { name: string } }) => {
+  const session = await auth();
+  if (!session) redirect('/login');
+
   const { name } = params;
 
   const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${name}`);
