@@ -1,6 +1,4 @@
 import Image from 'next/image';
-import Link from 'next/link';
-import { ArrowLeftIcon } from 'lucide-react';
 import BackToHome from '@/components/BackToHome';
 
 interface Ability {
@@ -30,7 +28,7 @@ const PokemonPage = async ({ params }: { params: { name: string } }) => {
           <p className="bg-blue-400 px-2 rounded-md">Weight: {pokemon?.weight && formatMeasurement(pokemon.weight / 10, 'meters')}</p>
           <div className="flex flex-col text-center text-black">
             <h3 className="font-bold text-xl underline">Abilities</h3>
-            {pokemon?.abilities && pokemon.abilities.map((ab: Ability) => <span>{ab.ability.name}</span>)}
+            {pokemon?.abilities && pokemon.abilities.map((ab: Ability) => <span key={ab.ability.name}>{ab.ability.name}</span>)}
           </div>
         </div>
       </div>
