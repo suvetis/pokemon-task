@@ -3,6 +3,7 @@ import SearchResultList from '@/components/SearchResultList';
 import { Suspense } from 'react';
 import Header from './Header';
 import Spinner from '@/components/Spinner';
+import { auth } from '@/auth';
 
 export type ParamType = {
   [key: string]: string | string[] | undefined;
@@ -11,6 +12,8 @@ export type ParamType = {
 const BrowsePage = async ({ params, searchParams }: { params: { page: string }; searchParams?: ParamType }) => {
   const { page } = params;
   const searchTerm = (searchParams?.searchTerm as string) || '';
+
+  const session = await auth();
 
   async function fetchPokemons(page: string) {
     await new Promise((resolve) => setTimeout(resolve, 2000));
@@ -22,6 +25,7 @@ const BrowsePage = async ({ params, searchParams }: { params: { page: string }; 
   return (
     <main className="flex flex-col h-screen">
       <Header page={page} searchTerm={searchTerm} />
+      {JSON.stringify(session, null, 2)}
       <div className="flex-grow overflow-y-scroll">
         <Suspense fallback={<Spinner />}>
           {searchTerm ? <SearchResultList searchTerm={searchTerm} /> : <PokemonList fetchData={() => fetchPokemons(page)} />}
