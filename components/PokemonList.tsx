@@ -28,7 +28,7 @@ const PokemonList = async ({ fetchData }: PokemonListProps) => {
           const pokemonNumber = getPokemonNumberFromUrl(pokemon.url);
 
           return (
-            <div key={pokemon.name} className="border border-gray-400 p-1 rounded-md">
+            <div key={pokemon.name} className="border border-gray-400 p-1 rounded-md h-fit">
               <Link className="flex flex-col items-center justify-center" href={`/pokemon/${pokemon.name}`}>
                 <Image
                   src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/shiny/${pokemonNumber}.png`}
