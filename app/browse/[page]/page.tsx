@@ -22,7 +22,7 @@ const BrowsePage = async ({ params, searchParams }: { params: { page: string }; 
   return (
     <main className="flex flex-col h-screen">
       <Header page={page} searchTerm={searchTerm} />
-      <div className="flex-grow">
+      <div className="flex-grow overflow-y-scroll">
         <Suspense fallback={<Spinner />}>
           {searchTerm ? <SearchResultList searchTerm={searchTerm} /> : <PokemonList fetchData={() => fetchPokemons(page)} />}
         </Suspense>
