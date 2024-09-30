@@ -1,5 +1,5 @@
-import React from 'react';
 import PokemonList, { Pokemon } from './PokemonList';
+import BackToHome from './BackToHome';
 
 const SearchResultList = async ({ searchTerm }: { searchTerm: string }) => {
   async function fetchPokemons() {
@@ -9,7 +9,14 @@ const SearchResultList = async ({ searchTerm }: { searchTerm: string }) => {
     return pokemons.results.filter((pokemon: Pokemon) => pokemon.name.toLowerCase().startsWith(searchTerm.toLowerCase()));
   }
 
-  return <PokemonList fetchData={fetchPokemons} />;
+  return (
+    <>
+      <div className="flex justify-center pt-8 pb-4">
+        <BackToHome />
+      </div>
+      <PokemonList fetchData={fetchPokemons} />
+    </>
+  );
 };
 
 export default SearchResultList;

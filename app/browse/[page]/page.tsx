@@ -1,9 +1,7 @@
 import PokemonList from '@/components/PokemonList';
-import React from 'react';
 import SearchResultList from '@/components/SearchResultList';
 import { Suspense } from 'react';
 import Header from './Header';
-import { SplineIcon } from 'lucide-react';
 import Spinner from '@/components/Spinner';
 
 export type ParamType = {

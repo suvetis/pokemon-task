@@ -1,20 +1,19 @@
 import { Button } from '@/components/ui/button';
-import React from 'react';
 import SearchInput from './SearchInput';
 import * as actions from '@/actions';
 import Link from 'next/link';
-import { HomeIcon } from 'lucide-react';
+import PokemonBallSVG from '@/assets/svg/PokemonBallSVG';
 
 const Header = ({ page, searchTerm }: { page: string; searchTerm: string }) => {
   return (
     <div className="flex justify-between p-2">
       <Link href="/browse/1">
-        <HomeIcon />
+        <PokemonBallSVG className="relative left-2" width={50} height={50} />
       </Link>
       <div className="flex flex-col items-center">
         <SearchInput searchTerm={searchTerm} />
         <div className={`pt-2 space-x-2 ${searchTerm ? 'hidden' : 'block'}`}>
-          <Button variant="outline" asChild>
+          <Button disabled={Number(page) === 1} variant="outline" asChild={Number(page) !== 1}>
             <Link href={`/browse/${Number(page) - 1}`}>Prev</Link>
           </Button>
           <Button variant="outline" asChild>
