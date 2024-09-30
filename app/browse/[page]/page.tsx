@@ -4,6 +4,7 @@ import { Suspense } from 'react';
 import Header from './Header';
 import Spinner from '@/components/Spinner';
 import { auth } from '@/auth';
+import { redirect } from 'next/navigation';
 
 export type ParamType = {
   [key: string]: string | string[] | undefined;
@@ -14,6 +15,7 @@ const BrowsePage = async ({ params, searchParams }: { params: { page: string }; 
   const searchTerm = (searchParams?.searchTerm as string) || '';
 
   const session = await auth();
+  if (!session) redirect('/login');
 
   async function fetchPokemons(page: string) {
     await new Promise((resolve) => setTimeout(resolve, 2000));
